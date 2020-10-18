@@ -8,7 +8,7 @@ from .settings import API_URL
 
 @admin.register(MunicipalityProfilesRebuild)
 class MunicipalityProfilesRebuildAdmin(admin.ModelAdmin):
-    list_display = ('datetime',)
+    list_display = ('user', 'datetime',)
     readonly_fields = ('user',)
 
     def get_exclude(self, request, obj=None):
@@ -33,7 +33,7 @@ class MunicipalityProfilesRebuildAdmin(admin.ModelAdmin):
 
 @admin.register(MunicipalityStaffContactsUpload)
 class MunicipalityStaffContactsUploadAdmin(admin.ModelAdmin):
-    list_display = ('datetime',)
+    list_display = ('user', 'datetime',)
     readonly_fields = ('user',)
 
     def get_exclude(self, request, obj=None):
@@ -52,5 +52,29 @@ class MunicipalityStaffContactsUploadAdmin(admin.ModelAdmin):
         async_task(
             'municipal_finance.update.update_municipal_staff_contacts',
             obj,
-            task_name='Municipal staff contacts upload',
+            task_name='Municipal staff contacts update',
+        )
+
+
+class CashflowUpdateAdmin(admin.ModelAdmin):
+    list_display = ('user', 'datetime',)
+    readonly_fields = ('user',)
+
+    def get_exclude(self, request, obj=None):
+        if obj is None:
+            return ('user',)
+        else:
+            return super(CashflowUpdateAdmin, self).get_exclude(request, obj)
+
+    def save_model(self, request, obj, form, change):
+        # Set the user to the current user
+        obj.user = request.user
+        # Process default save behavior
+        super(CashflowUpdateAdmin,
+              self).save_model(request, obj, form, change)
+        # Queue task
+        async_task(
+            'municipal_finance.update.update_cashflow',
+            obj,
+            task_name='Cashflow update',
         )

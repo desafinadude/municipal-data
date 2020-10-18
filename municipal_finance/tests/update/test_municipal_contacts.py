@@ -2,8 +2,8 @@ from django.test import TransactionTestCase
 from django.contrib.auth.models import User
 from django.core.files import File
 
-from ..models import MunicipalityStaffContactsUpload, MunicipalityStaffContacts
-from ..update import update_municipal_staff_contacts
+from municipal_finance.models import MunicipalityStaffContactsUpload, MunicipalityStaffContacts
+from municipal_finance.update import update_municipal_staff_contacts
 
 
 class UpdateMunicipalContactsTestCase(TransactionTestCase):

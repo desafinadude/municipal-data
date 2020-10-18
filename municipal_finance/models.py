@@ -439,11 +439,6 @@ class MedianGroup(models.Model):
     group_id = models.CharField(max_length=10, primary_key=True)
     data = JSONField()
 
-
-class RatingCountGroup(models.Model):
-    group_id = models.CharField(max_length=10, primary_key=True)
-    data = JSONField()
-
 # class Median(models.Model):
 #     area_code = models.CharField(max_length=5)
 #     miif_category = models.CharField(max_length=2)
@@ -453,3 +448,15 @@ class RatingCountGroup(models.Model):
 
 #     class Meta:
 #         unique_together = ('area_code', 'miif_category', 'indicator', 'year',)
+
+
+class RatingCountGroup(models.Model):
+    group_id = models.CharField(max_length=10, primary_key=True)
+    data = JSONField()
+
+
+class CashflowUpdate(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User)
+    datetime = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(upload_to='uploads/fiscal/cashflow/')
