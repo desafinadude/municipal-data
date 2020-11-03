@@ -35,6 +35,12 @@ from .financial_position import (
     BsheetItemsV2,
     BsheetFactsV2,
 )
+from .financial_position import (
+    BsheetItemsLegacy,
+    BsheetFactsLegacy,
+    BsheetItemsMSCOA,
+    BsheetFactsMSCOA,
+)
 
 
 class AgedCreditorFacts(models.Model):
