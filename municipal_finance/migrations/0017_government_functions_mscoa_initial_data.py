@@ -1,0 +1,26 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+import tablib
+
+from django.db import migrations, models
+
+from ..resources import GovernmentFunctionsMSCOAResource
+
+
+def import_initial_data(apps, schema_editor):
+    dataset = tablib.Dataset().load(
+        open('municipal_finance/fixtures/initial/government_functions_mscoa.csv')
+    )
+    GovernmentFunctionsMSCOAResource().import_data(dataset, raise_errors=True)
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('municipal_finance', '0016_auto_20201103_0658'),
+    ]
+
+    operations = [
+        migrations.RunPython(import_initial_data)
+    ]
