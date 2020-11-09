@@ -2,7 +2,6 @@
 import logging
 import urllib
 
-
 logger = logging.getLogger("municipal_finance")
 
 
