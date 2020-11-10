@@ -55,29 +55,10 @@ def get_indicator_calculators(has_comparisons=None):
 
 def get_indicators(api_data):
     indicators = {}
-
     for indicator_calc in get_indicator_calculators():
         indicators[indicator_calc.indicator_name] = indicator_calc.get_muni_specifics(
             api_data
         )
-
-    norms = {
-        "cash_at_year_end": {"good": "x>0", "bad": "x<=0"},
-        "cash_coverage": {"good": "x>3", "ave": "3>=x>1", "bad": "x<=1"},
-        "op_budget_diff": {
-            "good": "abs(x)<=5",
-            "ave": "5<abs(x)<=15",
-            "bad": "abs(x)>15",
-        },
-        "cap_budget_diff": {
-            "good": "abs(x)<=5",
-            "ave": "5<abs(x)<=15",
-            "bad": "abs(x)>15",
-        },
-        "rep_maint_perc_ppe": {"good": "abs(x)>=8", "bad": "abs(x)<8"},
-        "wasteful_exp": {"good": "x=0", "bad": "x!=0"},
-    }
-
     return indicators
 
 
