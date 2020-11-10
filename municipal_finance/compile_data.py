@@ -281,6 +281,7 @@ def compile_rating_counts(api_client):
 
 
 def compile_data(api_url):
+
     # Setup the client
     http_client = FuturesSession(
         executor=ThreadPoolExecutor(max_workers=10)
