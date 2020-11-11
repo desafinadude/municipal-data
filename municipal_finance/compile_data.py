@@ -207,15 +207,10 @@ def calc_provincial_rating_counts(munis):
 
 
 def compile_profiles(api_client):
-    def fetch(query):
-        result = api_client.api_get(query).result()
-        result.raise_for_status()
-        return result
-
     munis = get_munis(api_client)
     for muni in munis:
         demarcation_code = muni.get('municipality.demarcation_code')
-        api_data = ApiData(fetch, demarcation_code)
+        api_data = ApiData(api_client, demarcation_code)
         api_data.fetch_data()
         indicators = get_indicators(api_data)
         profile = {
