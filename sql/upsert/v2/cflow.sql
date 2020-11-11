@@ -14,7 +14,7 @@ CREATE TEMPORARY TABLE cflow_upsert
 
 \echo Read data...
 
-\copy cflow_upsert (demarcation_code, period_code, item_code, amount) FROM '' DELIMITER ',' CSV HEADER;
+\copy cflow_upsert (demarcation_code, period_code, item_code, amount) FROM '/Users/juriejan/Downloads/openup/data/mscoa/cflow.csv' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 

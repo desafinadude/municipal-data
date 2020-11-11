@@ -10,63 +10,70 @@ import municipal_finance.models.small_auto_field
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('municipal_finance', '0018_income_expenditure_items_mscoa_initial_data'),
+        ('municipal_finance', '0018_income_expenditure_items_v2_initial_data'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BsheetFactsMSCOA',
+            name='BsheetFactsv2',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField()),
                 ('period_code', models.TextField()),
                 ('amount', models.BigIntegerField(null=True)),
                 ('financial_year', models.IntegerField()),
                 ('period_length', models.TextField()),
                 ('financial_period', models.IntegerField()),
-                ('amount_type', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AmountTypeMSCOA')),
+                ('amount_type', models.ForeignKey(
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AmountTypeV2')),
             ],
             options={
-                'db_table': 'bsheet_facts_mscoa',
+                'db_table': 'bsheet_facts_v2',
             },
         ),
         migrations.CreateModel(
-            name='BsheetItemsMSCOA',
+            name='BsheetItemsV2',
             fields=[
                 ('label', models.TextField()),
                 ('position_in_return_form', models.IntegerField(null=True)),
                 ('return_form_structure', models.TextField(null=True)),
                 ('composition', models.TextField(null=True)),
-                ('id', municipal_finance.models.small_auto_field.SmallAutoField(primary_key=True, serialize=False)),
+                ('id', municipal_finance.models.small_auto_field.SmallAutoField(
+                    primary_key=True, serialize=False)),
                 ('code', models.TextField(unique=True)),
             ],
             options={
-                'db_table': 'bsheet_items_mscoa',
+                'db_table': 'bsheet_items_v2',
             },
         ),
         migrations.RenameModel(
             old_name='BsheetFacts',
-            new_name='BsheetFactsLegacy',
+            new_name='BsheetFactsV1',
         ),
         migrations.RenameModel(
             old_name='BsheetItems',
-            new_name='BsheetItemsLegacy',
+            new_name='BsheetItemsV1',
         ),
         migrations.AddField(
-            model_name='bsheetfactsmscoa',
+            model_name='bsheetfactsv2',
             name='item',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.BsheetItemsMSCOA'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.BsheetItemsV2'),
         ),
         migrations.AddIndex(
-            model_name='bsheetfactsmscoa',
-            index=models.Index(fields=['item_id'], name='bsheet_fact_item_id_0e1e16_idx'),
+            model_name='bsheetfactsv2',
+            index=models.Index(fields=['item_id'],
+                               name='bsheet_fact_item_id_0e1e16_idx'),
         ),
         migrations.AddIndex(
-            model_name='bsheetfactsmscoa',
-            index=models.Index(fields=['amount_type_id'], name='bsheet_fact_amount__a1b81c_idx'),
+            model_name='bsheetfactsv2',
+            index=models.Index(
+                fields=['amount_type_id'], name='bsheet_fact_amount__a1b81c_idx'),
         ),
         migrations.AlterUniqueTogether(
-            name='bsheetfactsmscoa',
-            unique_together=set([('amount_type', 'demarcation_code', 'financial_period', 'financial_year', 'item', 'period_length'), ('demarcation_code', 'period_code', 'item')]),
+            name='bsheetfactsv2',
+            unique_together=set([('amount_type', 'demarcation_code', 'financial_period', 'financial_year',
+                                  'item', 'period_length'), ('demarcation_code', 'period_code', 'item')]),
         ),
     ]

@@ -10,85 +10,95 @@ import municipal_finance.models.small_auto_field
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('municipal_finance', '0015_cashflow_items_mscoa_initial_data'),
+        ('municipal_finance', '0015_cashflow_items_v2_initial_data'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='GovernmentFunctionsMSCOA',
+            name='GovernmentFunctionsV2',
             fields=[
                 ('label', models.TextField()),
                 ('category_label', models.TextField()),
                 ('subcategory_label', models.TextField()),
-                ('id', municipal_finance.models.small_auto_field.SmallAutoField(primary_key=True, serialize=False)),
+                ('id', municipal_finance.models.small_auto_field.SmallAutoField(
+                    primary_key=True, serialize=False)),
                 ('code', models.TextField(unique=True)),
             ],
             options={
-                'db_table': 'government_functions_mscoa',
+                'db_table': 'government_functions_v2',
             },
         ),
         migrations.CreateModel(
-            name='IncexpFactsMSCOA',
+            name='IncexpFactsv2',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField()),
                 ('period_code', models.TextField()),
                 ('amount', models.BigIntegerField(null=True)),
                 ('financial_year', models.IntegerField()),
                 ('period_length', models.TextField()),
                 ('financial_period', models.IntegerField()),
-                ('amount_type', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AmountTypeMSCOA')),
-                ('function', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.GovernmentFunctionsMSCOA')),
+                ('amount_type', models.ForeignKey(
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AmountTypeV2')),
+                ('function', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING,
+                                               to='municipal_finance.GovernmentFunctionsV2')),
             ],
             options={
-                'db_table': 'incexp_facts_mscoa',
+                'db_table': 'incexp_facts_v2',
             },
         ),
         migrations.CreateModel(
-            name='IncexpItemsMSCOA',
+            name='IncexpItemsV2',
             fields=[
                 ('label', models.TextField()),
                 ('position_in_return_form', models.IntegerField(null=True)),
                 ('return_form_structure', models.TextField(null=True)),
                 ('composition', models.TextField(null=True)),
-                ('id', municipal_finance.models.small_auto_field.SmallAutoField(primary_key=True, serialize=False)),
+                ('id', municipal_finance.models.small_auto_field.SmallAutoField(
+                    primary_key=True, serialize=False)),
                 ('code', models.TextField(unique=True)),
             ],
             options={
-                'db_table': 'incexp_items_mscoa',
+                'db_table': 'incexp_items_v2',
             },
         ),
         migrations.RenameModel(
             old_name='GovernmentFunctions',
-            new_name='GovernmentFunctionsLegacy',
+            new_name='GovernmentFunctionsV1',
         ),
         migrations.RenameModel(
             old_name='IncexpFacts',
-            new_name='IncexpFactsLegacy',
+            new_name='IncexpFactsV1',
         ),
         migrations.RenameModel(
             old_name='IncexpItems',
-            new_name='IncexpItemsLegacy',
+            new_name='IncexpItemsV1',
         ),
         migrations.AddField(
-            model_name='incexpfactsmscoa',
+            model_name='incexpfactsv2',
             name='item',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.IncexpItemsMSCOA'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.IncexpItemsV2'),
         ),
         migrations.AddIndex(
-            model_name='incexpfactsmscoa',
-            index=models.Index(fields=['item_id'], name='incexp_fact_item_id_d72685_idx'),
+            model_name='incexpfactsv2',
+            index=models.Index(fields=['item_id'],
+                               name='incexp_fact_item_id_d72685_idx'),
         ),
         migrations.AddIndex(
-            model_name='incexpfactsmscoa',
-            index=models.Index(fields=['amount_type_id'], name='incexp_fact_amount__4cce8b_idx'),
+            model_name='incexpfactsv2',
+            index=models.Index(
+                fields=['amount_type_id'], name='incexp_fact_amount__4cce8b_idx'),
         ),
         migrations.AddIndex(
-            model_name='incexpfactsmscoa',
-            index=models.Index(fields=['function_id'], name='incexp_fact_functio_ad23e8_idx'),
+            model_name='incexpfactsv2',
+            index=models.Index(fields=['function_id'],
+                               name='incexp_fact_functio_ad23e8_idx'),
         ),
         migrations.AlterUniqueTogether(
-            name='incexpfactsmscoa',
-            unique_together=set([('amount_type', 'demarcation_code', 'financial_period', 'financial_year', 'function', 'item', 'period_length'), ('demarcation_code', 'period_code', 'function', 'item')]),
+            name='incexpfactsv2',
+            unique_together=set([('amount_type', 'demarcation_code', 'financial_period', 'financial_year',
+                                  'function', 'item', 'period_length'), ('demarcation_code', 'period_code', 'function', 'item')]),
         ),
     ]

@@ -116,6 +116,7 @@ class TestIndicators(TestCase):
         client = ApiClient(lambda u, p: self.client.get(u, data=p), "/api")
         # Fetch data from API
         api_data = ApiData(lambda q: client.api_get(q), "CPT")
+        api_data.fetch_data(["in_year_bsheet", "in_year_bsheet_v2"])
         # Provide data to indicator
         result = LiquidityRatio.get_muni_specifics(api_data)
         self.assertEqual(

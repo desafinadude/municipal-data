@@ -15,18 +15,19 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='AmountTypeMSCOA',
+            name='AmountTypeV2',
             fields=[
-                ('id', municipal_finance.models.small_auto_field.SmallAutoField(primary_key=True, serialize=False)),
+                ('id', municipal_finance.models.small_auto_field.SmallAutoField(
+                    primary_key=True, serialize=False)),
                 ('code', models.TextField(unique=True)),
                 ('label', models.TextField()),
             ],
             options={
-                'db_table': 'amount_type_mscoa',
+                'db_table': 'amount_type_v2',
             },
         ),
         migrations.CreateModel(
-            name='CflowFactsMSCOA',
+            name='CflowFactsv2',
             fields=[
                 ('demarcation_code', models.TextField()),
                 ('period_code', models.TextField()),
@@ -35,49 +36,55 @@ class Migration(migrations.Migration):
                 ('period_length', models.TextField()),
                 ('financial_period', models.IntegerField()),
                 ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('amount_type', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AmountTypeMSCOA')),
+                ('amount_type', models.ForeignKey(
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AmountTypeV2')),
             ],
             options={
-                'db_table': 'cflow_facts_mscoa',
+                'db_table': 'cflow_facts_v2',
             },
         ),
         migrations.CreateModel(
-            name='CflowItemsMSCOA',
+            name='CflowItemsV2',
             fields=[
                 ('label', models.TextField()),
                 ('position_in_return_form', models.IntegerField(null=True)),
                 ('return_form_structure', models.TextField(null=True)),
                 ('composition', models.TextField(null=True)),
-                ('id', municipal_finance.models.small_auto_field.SmallAutoField(primary_key=True, serialize=False)),
+                ('id', municipal_finance.models.small_auto_field.SmallAutoField(
+                    primary_key=True, serialize=False)),
                 ('code', models.TextField(unique=True)),
             ],
             options={
-                'db_table': 'cflow_items_mscoa',
+                'db_table': 'cflow_items_v2',
             },
         ),
         migrations.RenameModel(
             old_name='CflowFacts',
-            new_name='CflowFactsLegacy',
+            new_name='CflowFactsV1',
         ),
         migrations.RenameModel(
             old_name='CflowItems',
-            new_name='CflowItemsLegacy',
+            new_name='CflowItemsV1',
         ),
         migrations.AddField(
-            model_name='cflowfactsmscoa',
+            model_name='cflowfactsv2',
             name='item',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.CflowItemsMSCOA'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.CflowItemsV2'),
         ),
         migrations.AddIndex(
-            model_name='cflowfactsmscoa',
-            index=models.Index(fields=['item_id'], name='cflow_facts_item_id_e78aaa_idx'),
+            model_name='cflowfactsv2',
+            index=models.Index(fields=['item_id'],
+                               name='cflow_facts_item_id_e78aaa_idx'),
         ),
         migrations.AddIndex(
-            model_name='cflowfactsmscoa',
-            index=models.Index(fields=['amount_type_id'], name='cflow_facts_amount__9cc23e_idx'),
+            model_name='cflowfactsv2',
+            index=models.Index(
+                fields=['amount_type_id'], name='cflow_facts_amount__9cc23e_idx'),
         ),
         migrations.AlterUniqueTogether(
-            name='cflowfactsmscoa',
-            unique_together=set([('demarcation_code', 'period_code', 'item'), ('amount_type', 'demarcation_code', 'financial_period', 'financial_year', 'item', 'period_length')]),
+            name='cflowfactsv2',
+            unique_together=set([('demarcation_code', 'period_code', 'item'), ('amount_type',
+                                                                               'demarcation_code', 'financial_period', 'financial_year', 'item', 'period_length')]),
         ),
     ]
