@@ -35,6 +35,15 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
         form.base_fields['last_uifw_year'].initial = config.LAST_UIFW_YEAR
         return form
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(MunicipalityProfilesCompilationAdmin,
+                     self).get_form(request, obj, **kwargs)
+        last_year = date.today().year - 1
+        form.base_fields['last_audit_year'].initial = last_year
+        form.base_fields['last_opinion_year'].initial = last_year
+        form.base_fields['last_uifw_year'].initial = last_year
+        return form
+
     def get_exclude(self, request, obj=None):
         if obj is None:
             return ('user',)

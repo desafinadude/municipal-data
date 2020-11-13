@@ -49,7 +49,11 @@ class MunicipalityProfileCompilationAdminTestCase(TransactionTestCase):
         self.assertEquals(
             task["args"],
             (
+                << << << < HEAD
                 settings.API_URL,
+                == == == =
+                "http://portal:8000/api",
+                >>>>>> > 8834376a... Added target year fields for Municipality Profiles Compilation and provided them to compilation operation
                 2019,
                 2019,
                 2019,
