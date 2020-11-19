@@ -57,7 +57,7 @@ def get_manager():
         engine = config['ENGINE']
         # Lookup the driver name
         drivername = next(filter(lambda k: SCHEMES[k] == engine, SCHEMES))
-        port = int(config['PORT']) if config['PORT'].isdigit() else None
+        port = None if config['PORT'] == '' else config['PORT']
         url = URL(
             drivername,
             config['USER'],
